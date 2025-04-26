@@ -46,7 +46,6 @@ class BuildClasificationAlgo():
             logger.info(f"Accuracy Score = {clasification_algo_disc[clasification_algo][0]}")
             #logger.info(f"Confusion Matrix = {clasification_algo_disc[clasification_algo][1]}") 
             #logger.info(f"Model Parameter = {clasification_algo_disc[clasification_algo][2]}") 
-            print("check")
 
     @clock('[{elapsed:0.8f}s] : {name}')    
     def call_clasification_method(self):
