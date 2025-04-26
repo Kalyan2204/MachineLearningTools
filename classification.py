@@ -1,5 +1,4 @@
 import numpy as np
-from data_pre_processing import data_preprocessing
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -44,7 +43,7 @@ class BuildClasificationAlgo():
         else:                      
             logger.info(f"Clasification Algorithm = {clasification_algo.__name__}")
             logger.info(f"Accuracy Score = {clasification_algo_disc[clasification_algo][0]}")
-            #logger.info(f"Confusion Matrix = {clasification_algo_disc[clasification_algo][1]}") 
+            logger.info(f"Confusion Matrix = {clasification_algo_disc[clasification_algo][1]}") 
             #logger.info(f"Model Parameter = {clasification_algo_disc[clasification_algo][2]}") 
 
     @clock('[{elapsed:0.8f}s] : {name}')    
@@ -75,7 +74,7 @@ class ClasificationBase(ABC):
     def __init__(self, args):
         logger.debug(f"Constructor ClasificationBase: This is an Interface")
         obj =  DataPreProcessing("Clasification", args.dataset) 
-        self.X_train, self.X_test, self.y_train, self.y_test = data_preprocessing(args.dataset) 
+        self.X_train, self.X_test, self.y_train, self.y_test = obj.data_processing_classification() 
         self.args = args    
 
     @abstractmethod    
@@ -126,7 +125,7 @@ class SVM_Linear(ClasificationBase):
         return(score, cm, classifier)
 
 @clasification
-class SVM_Kenel(ClasificationBase):
+class SVM_Kernel(ClasificationBase):
     def clasification_method(self):
         logger.debug(f"Inside clasification_method in SVM_Kenel Object")
         return(self.kernel_svm_Clasification())

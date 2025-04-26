@@ -1,5 +1,4 @@
 import numpy as np
-from data_pre_processing import data_preprocessing
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.svm import SVR
@@ -72,7 +71,7 @@ class RegressionBase(ABC):
     def __init__(self, args):
         logger.debug(f"Constructor RegressionBase: This is an Interface")
         obj =  DataPreProcessing("Regression", args.dataset) 
-        self.X_train, self.X_test, self.y_train, self.y_test = data_preprocessing(args.dataset) 
+        self.X_train, self.X_test, self.y_train, self.y_test = obj.data_processing_regression()
         self.args = args    
 
     @abstractmethod    

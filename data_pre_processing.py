@@ -22,30 +22,11 @@ def endcoding_catagorical_data(X):
             X = np.array(ct.fit_transform(X))
     return(X)
 
-def data_preprocessing(inout_data):           
-    logger.debug(f"Inside data_preprocessing function")
-    dataset = pd.read_csv(inout_data)        
-    logger.debug(f"Created data frame")
-    
-
-    #----------- to do --------#
-    #----- Exception for the missing input data file -----------# 
-
-    X = dataset.iloc[:, :-1].values
-    y = dataset.iloc[:, -1].values      
-    logger.debug(f"Created X and y data frames")
-    
-    #endcoding catagorical data usnig OneHotEncoder
-    X = endcoding_catagorical_data(X)      
-    logger.debug(f"Endcoding catagorical data usnig OneHotEncoder -> Done")
-    #manupulate missing data using mean strategy
-    X = manupulate_missing_data(X)  
-    logger.debug(f"Manupulate missing data using mean strategy -> Done")
-    
-    #Splitting data set into training and test 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0) 
-    logger.debug(f"Splitting data set into training and test  -> Done")       
-    return(X_train, X_test, y_train, y_test)
+def scaling(X_train, X_test):
+    sc = StandardScaler()
+    X_train = sc.fit_transform(X_train)
+    X_test = sc.transform(X_test)     
+    return(X_train, X_test)
 
 class DataPreProcessing:
     def __init__(self, ml_method, dataset):
@@ -56,3 +37,37 @@ class DataPreProcessing:
         if col_no == -1: return self.dataset.iloc[:, :].values
         else: return self.dataset.iloc[:, col_no].values
         # --- to do need to add exception if col no does not exist 
+
+    def data_processing_classification(self):
+        logger.debug(f"Inside data_processing_classification function of DataPreProcessing object")
+        X = self.dataset.iloc[:, :-1].values
+        y = self.dataset.iloc[:, -1].values      
+        logger.debug(f"Created X and y data frames")    
+           
+        X = endcoding_catagorical_data(X)      
+        logger.debug(f"Endcoding catagorical data usnig OneHotEncoder -> Done")
+        X = manupulate_missing_data(X)  
+        logger.debug(f"Manupulate missing data using mean strategy -> Done")
+    
+        #Splitting data set into training and test 
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0) 
+        logger.debug(f"Splitting data set into training and test  -> Done")
+        X_train, X_test =  scaling(X_train, X_test) 
+        logger.debug(f"Scaling X_train and X_test  -> Done") 
+        return(X_train, X_test, y_train, y_test)      
+
+    def data_processing_regression(self):
+        logger.debug(f"Inside data_processing_regression function of DataPreProcessing object")
+        X = self.dataset.iloc[:, :-1].values
+        y = self.dataset.iloc[:, -1].values      
+        logger.debug(f"Created X and y data frames")    
+           
+        X = endcoding_catagorical_data(X)      
+        logger.debug(f"Endcoding catagorical data usnig OneHotEncoder -> Done")
+        X = manupulate_missing_data(X)  
+        logger.debug(f"Manupulate missing data using mean strategy -> Done")
+    
+        #Splitting data set into training and test 
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0) 
+        logger.debug(f"Splitting data set into training and test  -> Done")
+        return(X_train, X_test, y_train, y_test)
