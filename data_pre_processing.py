@@ -38,24 +38,6 @@ class DataPreProcessing:
         else: return self.dataset.iloc[:, col_no].values
         # --- to do need to add exception if col no does not exist 
 
-    def data_processing_classification(self):
-        logger.debug(f"Inside data_processing_classification function of DataPreProcessing object")
-        X = self.dataset.iloc[:, :-1].values
-        y = self.dataset.iloc[:, -1].values      
-        logger.debug(f"Created X and y data frames")    
-           
-        X = endcoding_catagorical_data(X)      
-        logger.debug(f"Endcoding catagorical data usnig OneHotEncoder -> Done")
-        X = manupulate_missing_data(X)  
-        logger.debug(f"Manupulate missing data using mean strategy -> Done")
-    
-        #Splitting data set into training and test 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0) 
-        logger.debug(f"Splitting data set into training and test  -> Done")
-        X_train, X_test =  scaling(X_train, X_test) 
-        logger.debug(f"Scaling X_train and X_test  -> Done") 
-        return(X_train, X_test, y_train, y_test)      
-
     def data_processing_regression(self):
         logger.debug(f"Inside data_processing_regression function of DataPreProcessing object")
         X = self.dataset.iloc[:, :-1].values
@@ -70,4 +52,11 @@ class DataPreProcessing:
         #Splitting data set into training and test 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0) 
         logger.debug(f"Splitting data set into training and test  -> Done")
-        return(X_train, X_test, y_train, y_test)
+        return(X_train, X_test, y_train, y_test)   
+    
+    def data_processing_classification(self):
+        logger.debug(f"Inside data_processing_classification function of DataPreProcessing object")
+        X_train, X_test, y_train, y_test = self.data_processing_regression()
+        X_train, X_test =  scaling(X_train, X_test) 
+        logger.debug(f"Scaling X_train and X_test  -> Done") 
+        return(X_train, X_test, y_train, y_test)      
