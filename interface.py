@@ -3,6 +3,7 @@ from logger_config import logger
 import clustering
 import regression
 import classification
+import association
 
 class InterfaceML(ABC):
     @abstractmethod
@@ -20,4 +21,8 @@ class Regression(InterfaceML):
 class Classification(InterfaceML):
     def machine_learning_method(self, args):
         classification.BuildClasificationAlgo(args) 
+
+class Association(InterfaceML):
+    def machine_learning_method(self, args):
+        association.BuildAssociationAlgo(args) 
 

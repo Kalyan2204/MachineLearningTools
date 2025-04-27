@@ -11,7 +11,9 @@ class UseFactory():
         if ml_type == "Classification":
             return interface.Classification()   
         if ml_type == "Clustering":
-            return interface.Clustering()   
+            return interface.Clustering()     
+        if ml_type == "Association":
+            return interface.Association()   
         
 if __name__ == "__main__":
     logger.debug(f"Inside main")

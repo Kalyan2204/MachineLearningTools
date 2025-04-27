@@ -21,7 +21,7 @@ def argument_parser():
     parser = argparse.ArgumentParser() 
     parser.add_argument("-d", "--dataset", dest='dataset', metavar='string',
                         help='Data Set for the Machine Learning Tool in .csv format. User must provide full path of the .csv file otherwise the program will return nothing')
-    parser.add_argument('-m', '--ml_method', dest='ml_method', default = "Regression", metavar='string', choices=['Regression', 'Classification', 'Clustering'],
+    parser.add_argument('-m', '--ml_method', dest='ml_method', default = "Regression", metavar='string', choices=['Regression', 'Classification', 'Clustering', 'Association'],
                         help='Specify which kind of ML Tool is Required. Possoble Values: Regression, Classification, Clustering. Default = "Regression"')
     parser.add_argument('-n', '--nos', dest='col_no', default = "-1", type=int, nargs='+',
                         help='Specify which columns you want in your training from the dataset in int, default = all' )    

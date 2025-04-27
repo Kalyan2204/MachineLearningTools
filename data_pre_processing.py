@@ -1,12 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import concurrent.futures
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from logger_config import logger
+from utility import clock
 
 def manupulate_missing_data(X):
     col_no = len(X[0])
@@ -59,4 +61,22 @@ class DataPreProcessing:
         X_train, X_test, y_train, y_test = self.data_processing_regression()
         X_train, X_test =  scaling(X_train, X_test) 
         logger.debug(f"Scaling X_train and X_test  -> Done") 
-        return(X_train, X_test, y_train, y_test)      
+        return(X_train, X_test, y_train, y_test)     
+    
+    
+    def task(self, transactions, col_no, i):
+        transactions.append([str(self.dataset.values[i,j]) for j in range(0, col_no)])
+        return transactions
+    
+    def data_processing_association(self):
+        logger.debug(f"Inside data_processing_association function of DataPreProcessing object")
+        row_no = len(self.dataset)
+        col_no = len(self.dataset.columns)
+        logger.info(f"In input the .csv file has row_no = {row_no} and col_no = {col_no}")
+        transactions = []   
+        #row_no = 100
+        #col_no = 10
+
+        for i in range(0, row_no):
+            transactions.append([str(self.dataset.values[i,j]) for j in range(0, col_no)])        
+        return(transactions)       
